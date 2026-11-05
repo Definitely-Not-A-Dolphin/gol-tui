@@ -1,0 +1,21 @@
+{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+  outputs =
+    { nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      devShells.x86_64-linux.default = pkgs.mkShell {
+        packages = with pkgs; [
+          cargo
+          clippy
+          rust-analyzer
+          rustfmt
+          rustc
+        ];
+      };
+    };
+}
