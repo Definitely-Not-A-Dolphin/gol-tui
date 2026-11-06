@@ -1,9 +1,15 @@
-use ansi_control_codes::control_sequences::{CUP, ED, ErasePage};
+use ansi_control_codes::control_sequences::CNL;
+use std::io::{Write, stdout};
 
-pub fn to_start() {
-  print!("{}", CUP(0.into(), 0.into()));
+pub fn to_pos(line: u16, column: u16) {
+  print!("\x1b[{line};{column}H");
+}
+
+pub fn new_line() {
+  print!("{}", CNL(None));
 }
 
 pub fn erase_page() {
-  print!("{}", ED(Some(ErasePage::BeginToEnd)));
+  print!("\x1b[K\x1b[1J");
+  stdout().flush().unwrap();
 }
