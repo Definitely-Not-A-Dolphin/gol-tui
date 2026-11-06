@@ -3,11 +3,16 @@ export const toUint8Array = (text: string) =>
     Array.from(text).map((letter) => letter.charCodeAt(0)),
   );
 
-export const print = (str: string) => {
-  Deno.stdout.writeSync(toUint8Array(str));
-};
+export function print(...strs: string[]): void {
+  for (const str of strs) Deno.stdout.writeSync(toUint8Array(str));
+}
 
-export const codes = {
+export const toPos = (row: number, column: number) =>
+  print(`\x1b[${row};${column}H`);
+
+export const clear = () => print("\x1b[K\x1b[1J");
+
+export const ansiCodes = {
   chars: {
     upArrow: "\u001b[A",
     downArrow: "\u001b[B",
