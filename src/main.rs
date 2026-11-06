@@ -35,6 +35,8 @@ fn main() {
       }
     }
 
+    print!("{}, {}", cur_line, cur_column);
+
     stdout().flush().unwrap();
 
     let mut buf: [u8; 1] = [0];
@@ -43,10 +45,13 @@ fn main() {
 
     match buf as char {
       'q' => break,
-      '\u{001bA}' if cur_line != 1 => cur_line -= 1,
-      '\u{001bB}' if cur_line != height => cur_line += 1,
-      '\u{001bC}' if cur_column != 1 => cur_column -= 1,
-      '\u{001bD}' if cur_column != width => cur_column += 1,
+      "\x1b[A" if 1 < cur_line => {
+        cur_line -= 1;
+        print!("up");
+      }
+      '\u{001bB}' if cur_line < height => cur_line += 1,
+      '\u{001bC}' if 1 < cur_column => cur_column -= 1,
+      '\u{001bD}' if cur_column < width => cur_column += 1,
       _ => (),
     };
 
