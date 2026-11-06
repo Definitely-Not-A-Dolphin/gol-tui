@@ -1,9 +1,0 @@
-[package]
-name = "gol-tui"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-ansi-control-codes = { version = "1.0.1", features = ["parser"] }
-crossterm = "0.29.0"
-terminal_size = "0.4.4"
